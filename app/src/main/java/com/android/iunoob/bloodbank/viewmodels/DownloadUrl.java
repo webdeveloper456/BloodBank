@@ -31,7 +31,8 @@ public class DownloadUrl {
 
             inputStream = urlConnection.getInputStream();
             BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
-            StringBuffer sb = new StringBuffer();
+            // Use StringBuilder instead of StringBuffer to avoid unnecessary thread synchronization lock overhead
+            StringBuilder sb = new StringBuilder();
             String line="";
             while ((line = br.readLine()) != null)
             {
@@ -47,8 +48,12 @@ public class DownloadUrl {
             e.printStackTrace();
         }
         finally {
-            inputStream.close();
-            urlConnection.disconnect();
+            if (inputStream != null) {
+                inputStream.close();
+            }
+            if (urlConnection != null) {
+                urlConnection.disconnect();
+            }
         }
 
         return data;
