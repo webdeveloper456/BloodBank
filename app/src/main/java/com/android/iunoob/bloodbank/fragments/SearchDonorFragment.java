@@ -110,8 +110,10 @@ public class SearchDonorFragment extends Fragment {
                            {
                                DonorData donorData = singleitem.getValue(DonorData.class);
                                donorItem.add(donorData);
-                               sdadapter.notifyDataSetChanged();
                            }
+                           // Performance optimization: Batch adapter update after adding all items
+                           // to avoid N unnecessary layout/rebind passes on the UI thread.
+                           sdadapter.notifyDataSetChanged();
                        }
                        else
                        {
