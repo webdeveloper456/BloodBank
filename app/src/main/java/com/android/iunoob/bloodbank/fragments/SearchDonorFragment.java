@@ -106,12 +106,14 @@ public class SearchDonorFragment extends Fragment {
                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                        if(dataSnapshot.exists())
                        {
+                           // Performance Optimization: Notify adapter once after all items are added
+                           // to prevent N unnecessary layout/draw passes on the RecyclerView.
                            for(DataSnapshot singleitem : dataSnapshot.getChildren())
                            {
                                DonorData donorData = singleitem.getValue(DonorData.class);
                                donorItem.add(donorData);
-                               sdadapter.notifyDataSetChanged();
                            }
+                           sdadapter.notifyDataSetChanged();
                        }
                        else
                        {
