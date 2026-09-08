@@ -93,11 +93,13 @@ public class HomeView extends Fragment {
 
                 if(dataSnapshot.exists()) {
 
+                    // Performance Optimization: Notify adapter once after all items are added
+                    // to prevent N unnecessary layout/draw passes on the RecyclerView.
                     for (DataSnapshot singlepost : dataSnapshot.getChildren()) {
                         CustomUserData customUserData = singlepost.getValue(CustomUserData.class);
                         postLists.add(customUserData);
-                        restAdapter.notifyDataSetChanged();
                     }
+                    restAdapter.notifyDataSetChanged();
                     pd.dismiss();
                 }
                 else
