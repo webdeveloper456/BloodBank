@@ -22,6 +22,9 @@ import java.util.List;
 
 public class BloodRequestAdapter extends RecyclerView.Adapter<BloodRequestAdapter.PostHolder> {
 
+    // Performance Optimization: Cache parsed color integers to avoid calling Color.parseColor on every view bind during scrolling
+    private static final int COLOR_RED = Color.parseColor("#C13F31");
+    private static final int COLOR_WHITE = Color.parseColor("#FFFFFF");
 
     private List<CustomUserData> postLists;
 
@@ -60,18 +63,19 @@ public class BloodRequestAdapter extends RecyclerView.Adapter<BloodRequestAdapte
 
         if(i%2==0)
         {
-            postHolder.itemView.setBackgroundColor(Color.parseColor("#C13F31"));
+            postHolder.itemView.setBackgroundColor(COLOR_RED);
         }
         else
         {
-            postHolder.itemView.setBackgroundColor(Color.parseColor("#FFFFFF"));
+            postHolder.itemView.setBackgroundColor(COLOR_WHITE);
         }
 
         CustomUserData customUserData = postLists.get(i);
-        postHolder.Name.setText("Posted by: "+customUserData.getName());
-        postHolder.Address.setText("From: "+customUserData.getAddress()+", "+customUserData.getDivision());
-        postHolder.bloodgroup.setText("Needs "+customUserData.getBloodGroup());
-        postHolder.posted.setText("Posted on:"+customUserData.getTime()+", "+customUserData.getDate());
+        // Optimization: Use StringBuilder for string concatenation in RecyclerView binding to reduce GC pressure during fast scrolling
+        postHolder.Name.setText(new StringBuilder("Posted by: ").append(customUserData.getName()).toString());
+        postHolder.Address.setText(new StringBuilder("From: ").append(customUserData.getAddress()).append(", ").append(customUserData.getDivision()).toString());
+        postHolder.bloodgroup.setText(new StringBuilder("Needs ").append(customUserData.getBloodGroup()).toString());
+        postHolder.posted.setText(new StringBuilder("Posted on:").append(customUserData.getTime()).append(", ").append(customUserData.getDate()).toString());
         postHolder.contact.setText(customUserData.getContact());
 
     }
