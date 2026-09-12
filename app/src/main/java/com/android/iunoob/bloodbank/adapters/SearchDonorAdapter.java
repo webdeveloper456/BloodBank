@@ -22,6 +22,9 @@ import java.util.List;
 
 public class SearchDonorAdapter extends RecyclerView.Adapter<SearchDonorAdapter.PostHolder> {
 
+    // Performance Optimization: Cache parsed color integers to avoid calling Color.parseColor on every view bind during scrolling
+    private static final int COLOR_RED = Color.parseColor("#C13F31");
+    private static final int COLOR_WHITE = Color.parseColor("#FFFFFF");
 
     private List<DonorData> postLists;
 
@@ -60,18 +63,19 @@ public class SearchDonorAdapter extends RecyclerView.Adapter<SearchDonorAdapter.
 
         if(i%2==0)
         {
-            postHolder.itemView.setBackgroundColor(Color.parseColor("#C13F31"));
+            postHolder.itemView.setBackgroundColor(COLOR_RED);
         }
         else
         {
-            postHolder.itemView.setBackgroundColor(Color.parseColor("#FFFFFF"));
+            postHolder.itemView.setBackgroundColor(COLOR_WHITE);
         }
         DonorData donorData = postLists.get(i);
-        postHolder.Name.setText("Name: "+donorData.getName());
+        // Optimization: Use StringBuilder for string concatenation in RecyclerView binding to reduce GC pressure during fast scrolling
+        postHolder.Name.setText(new StringBuilder("Name: ").append(donorData.getName()).toString());
         postHolder.contact.setText(donorData.getContact());
-        postHolder.Address.setText("Address: "+donorData.getAddress());
-        postHolder.totaldonate.setText("Total Donation: "+donorData.getTotalDonate()+" times");
-        postHolder.posted.setText("Last Donation: "+donorData.getLastDonate());
+        postHolder.Address.setText(new StringBuilder("Address: ").append(donorData.getAddress()).toString());
+        postHolder.totaldonate.setText(new StringBuilder("Total Donation: ").append(donorData.getTotalDonate()).append(" times").toString());
+        postHolder.posted.setText(new StringBuilder("Last Donation: ").append(donorData.getLastDonate()).toString());
 
 
     }
