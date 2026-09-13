@@ -96,20 +96,22 @@ public class HomeView extends Fragment {
                     for (DataSnapshot singlepost : dataSnapshot.getChildren()) {
                         CustomUserData customUserData = singlepost.getValue(CustomUserData.class);
                         postLists.add(customUserData);
-                        restAdapter.notifyDataSetChanged();
                     }
-                    pd.dismiss();
+                    // Performance optimization: Notify adapter once after all items are added
+                    // to avoid re-rendering layout & re-allocating views for every single item.
+                    restAdapter.notifyDataSetChanged();
                 }
                 else
                 {
                     Toast.makeText(getActivity(), "Database is empty now!",
                             Toast.LENGTH_LONG).show();
                 }
+                pd.dismiss();
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                pd.dismiss();
                 Log.d("User", databaseError.getMessage());
 
             }
