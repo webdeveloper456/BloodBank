@@ -110,8 +110,9 @@ public class SearchDonorFragment extends Fragment {
                            {
                                DonorData donorData = singleitem.getValue(DonorData.class);
                                donorItem.add(donorData);
-                               sdadapter.notifyDataSetChanged();
                            }
+                           // Batch adapter update once after all items are added to avoid re-laying out the RecyclerView N times
+                           sdadapter.notifyDataSetChanged();
                        }
                        else
                        {
