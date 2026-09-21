@@ -22,6 +22,9 @@ import java.util.List;
 
 public class SearchDonorAdapter extends RecyclerView.Adapter<SearchDonorAdapter.PostHolder> {
 
+    // Cache color integers to avoid redundant Color.parseColor() calls on every row bind
+    private static final int COLOR_RED = Color.parseColor("#C13F31");
+    private static final int COLOR_WHITE = Color.parseColor("#FFFFFF");
 
     private List<DonorData> postLists;
 
@@ -60,11 +63,11 @@ public class SearchDonorAdapter extends RecyclerView.Adapter<SearchDonorAdapter.
 
         if(i%2==0)
         {
-            postHolder.itemView.setBackgroundColor(Color.parseColor("#C13F31"));
+            postHolder.itemView.setBackgroundColor(COLOR_RED);
         }
         else
         {
-            postHolder.itemView.setBackgroundColor(Color.parseColor("#FFFFFF"));
+            postHolder.itemView.setBackgroundColor(COLOR_WHITE);
         }
         DonorData donorData = postLists.get(i);
         postHolder.Name.setText("Name: "+donorData.getName());
