@@ -59,8 +59,6 @@ public class HomeView extends Fragment {
         view = inflater.inflate(R.layout.home_view_fragment, container, false);
         recentPosts = (RecyclerView) view.findViewById(R.id.recyleposts);
 
-        recentPosts.setLayoutManager(new LinearLayoutManager(getContext()));
-
         donor_ref = FirebaseDatabase.getInstance().getReference();
         postLists = new ArrayList<>();
 
@@ -96,8 +94,9 @@ public class HomeView extends Fragment {
                     for (DataSnapshot singlepost : dataSnapshot.getChildren()) {
                         CustomUserData customUserData = singlepost.getValue(CustomUserData.class);
                         postLists.add(customUserData);
-                        restAdapter.notifyDataSetChanged();
                     }
+                    // Batch adapter update once after adding all items to prevent O(N^2) layout passes
+                    restAdapter.notifyDataSetChanged();
                     pd.dismiss();
                 }
                 else

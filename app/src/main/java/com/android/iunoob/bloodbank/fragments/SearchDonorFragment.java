@@ -93,7 +93,6 @@ public class SearchDonorFragment extends Fragment {
                 donorItem.clear();
                 sdadapter = new SearchDonorAdapter(donorItem);
                 recyclerView = (RecyclerView) view.findViewById(R.id.showDonorList);
-                recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
                 RecyclerView.LayoutManager searchdonor = new LinearLayoutManager(getContext());
                 recyclerView.setLayoutManager(searchdonor);
                 recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -110,8 +109,9 @@ public class SearchDonorFragment extends Fragment {
                            {
                                DonorData donorData = singleitem.getValue(DonorData.class);
                                donorItem.add(donorData);
-                               sdadapter.notifyDataSetChanged();
                            }
+                           // Batch adapter update once after adding all items to avoid repeated re-layouts
+                           sdadapter.notifyDataSetChanged();
                        }
                        else
                        {
