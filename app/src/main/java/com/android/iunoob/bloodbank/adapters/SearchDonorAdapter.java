@@ -22,6 +22,9 @@ import java.util.List;
 
 public class SearchDonorAdapter extends RecyclerView.Adapter<SearchDonorAdapter.PostHolder> {
 
+    // Cache pre-parsed colors to avoid parsing hex strings on every view bind during scrolling
+    private static final int EVEN_BG_COLOR = Color.parseColor("#C13F31");
+    private static final int ODD_BG_COLOR = Color.parseColor("#FFFFFF");
 
     private List<DonorData> postLists;
 
@@ -60,11 +63,11 @@ public class SearchDonorAdapter extends RecyclerView.Adapter<SearchDonorAdapter.
 
         if(i%2==0)
         {
-            postHolder.itemView.setBackgroundColor(Color.parseColor("#C13F31"));
+            postHolder.itemView.setBackgroundColor(EVEN_BG_COLOR);
         }
         else
         {
-            postHolder.itemView.setBackgroundColor(Color.parseColor("#FFFFFF"));
+            postHolder.itemView.setBackgroundColor(ODD_BG_COLOR);
         }
         DonorData donorData = postLists.get(i);
         postHolder.Name.setText("Name: "+donorData.getName());

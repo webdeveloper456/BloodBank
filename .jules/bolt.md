@@ -1,0 +1,3 @@
+## 2026-03-29 - Batch RecyclerView Adapter Updates & Pre-parse Color Resources
+**Learning:** Calling `notifyDataSetChanged()` inside Firebase snapshot iteration loops causes N full RecyclerView layout traversals, resulting in O(N^2) rendering passes on the main thread. Additionally, calling `Color.parseColor()` inside `onBindViewHolder` causes redundant hex String parsing during list scrolling.
+**Action:** Always batch list data updates by invoking `notifyDataSetChanged()` once after loop processing completes, and pre-parse static colors into `private static final int` constants in `RecyclerView.Adapter` classes.
