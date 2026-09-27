@@ -96,8 +96,10 @@ public class HomeView extends Fragment {
                     for (DataSnapshot singlepost : dataSnapshot.getChildren()) {
                         CustomUserData customUserData = singlepost.getValue(CustomUserData.class);
                         postLists.add(customUserData);
-                        restAdapter.notifyDataSetChanged();
                     }
+                    // Bolt ⚡ Optimization: Notify adapter once after populating the list
+                    // to prevent N redundant UI re-layouts/re-renders during iteration.
+                    restAdapter.notifyDataSetChanged();
                     pd.dismiss();
                 }
                 else
