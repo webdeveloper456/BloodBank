@@ -22,6 +22,9 @@ import java.util.List;
 
 public class BloodRequestAdapter extends RecyclerView.Adapter<BloodRequestAdapter.PostHolder> {
 
+    // Pre-parsed colors to avoid repeated string parsing during RecyclerView scrolling
+    private static final int EVEN_ROW_COLOR = Color.parseColor("#C13F31");
+    private static final int ODD_ROW_COLOR = Color.parseColor("#FFFFFF");
 
     private List<CustomUserData> postLists;
 
@@ -60,11 +63,11 @@ public class BloodRequestAdapter extends RecyclerView.Adapter<BloodRequestAdapte
 
         if(i%2==0)
         {
-            postHolder.itemView.setBackgroundColor(Color.parseColor("#C13F31"));
+            postHolder.itemView.setBackgroundColor(EVEN_ROW_COLOR);
         }
         else
         {
-            postHolder.itemView.setBackgroundColor(Color.parseColor("#FFFFFF"));
+            postHolder.itemView.setBackgroundColor(ODD_ROW_COLOR);
         }
 
         CustomUserData customUserData = postLists.get(i);
