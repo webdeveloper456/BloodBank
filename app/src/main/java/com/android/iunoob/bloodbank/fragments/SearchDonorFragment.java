@@ -110,8 +110,9 @@ public class SearchDonorFragment extends Fragment {
                            {
                                DonorData donorData = singleitem.getValue(DonorData.class);
                                donorItem.add(donorData);
-                               sdadapter.notifyDataSetChanged();
                            }
+                           // Batch adapter notification after adding all donors to avoid O(N) layout passes
+                           sdadapter.notifyDataSetChanged();
                        }
                        else
                        {
@@ -120,15 +121,15 @@ public class SearchDonorFragment extends Fragment {
                                    Toast.LENGTH_LONG).show();
 
                        }
+                       pd.dismiss();
                    }
 
                    @Override
                    public void onCancelled(@NonNull DatabaseError databaseError) {
                        Log.d("User", databaseError.getMessage());
-
+                       pd.dismiss();
                    }
                });
-               pd.dismiss();
             }
         });
         return view;
