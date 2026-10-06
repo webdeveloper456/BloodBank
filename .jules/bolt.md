@@ -1,0 +1,3 @@
+## 2026-03-02 - RecyclerView Adapter Optimization and Firebase List Batching
+**Learning:** Calling `Color.parseColor()` inside `onBindViewHolder` performs hex parsing on every item scroll frame, causing unnecessary garbage collection pressure and main thread CPU cycles. Furthermore, calling `notifyDataSetChanged()` inside a loop over `DataSnapshot.getChildren()` triggers N consecutive full RecyclerView layout invalidations rather than a single update pass.
+**Action:** Always pre-parse static colors as `private static final int` constants in Adapters, and batch list modifications before invoking `notifyDataSetChanged()` once after list iteration completes.
