@@ -1,0 +1,3 @@
+## 2026-03-02 - Batched Adapter Notifications in Firebase Listeners
+**Learning:** In Firebase Realtime Database `ValueEventListener` callbacks (such as query results in `SearchDonorFragment` and `HomeView`), iterating over `dataSnapshot.getChildren()` and invoking `adapter.notifyDataSetChanged()` inside the loop triggers redundant layout, measure, and item rebinding passes on the main thread for every single snapshot child (O(N) layout passes).
+**Action:** Always batch list insertions from `DataSnapshot` collections and invoke `notifyDataSetChanged()` (or appropriate range insertion notification) exactly once after the loop finishes.

@@ -106,12 +106,15 @@ public class SearchDonorFragment extends Fragment {
                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                        if(dataSnapshot.exists())
                        {
+                           // Optimization: Batch data loading and notify adapter once after populating
+                           // rather than calling notifyDataSetChanged() per item, which triggers redundant
+                           // layout and bind passes for each child snapshot (O(N) layout passes reduced to O(1)).
                            for(DataSnapshot singleitem : dataSnapshot.getChildren())
                            {
                                DonorData donorData = singleitem.getValue(DonorData.class);
                                donorItem.add(donorData);
-                               sdadapter.notifyDataSetChanged();
                            }
+                           sdadapter.notifyDataSetChanged();
                        }
                        else
                        {
