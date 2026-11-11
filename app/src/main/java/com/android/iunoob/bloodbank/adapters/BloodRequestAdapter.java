@@ -22,6 +22,10 @@ import java.util.List;
 
 public class BloodRequestAdapter extends RecyclerView.Adapter<BloodRequestAdapter.PostHolder> {
 
+    // Performance optimization: Cache parsed color integers to avoid repeatedly parsing color hex strings
+    // and allocating Color instances on every bind/scroll frame in RecyclerView.
+    private static final int COLOR_PRIMARY = Color.parseColor("#C13F31");
+    private static final int COLOR_WHITE = Color.parseColor("#FFFFFF");
 
     private List<CustomUserData> postLists;
 
@@ -60,11 +64,11 @@ public class BloodRequestAdapter extends RecyclerView.Adapter<BloodRequestAdapte
 
         if(i%2==0)
         {
-            postHolder.itemView.setBackgroundColor(Color.parseColor("#C13F31"));
+            postHolder.itemView.setBackgroundColor(COLOR_PRIMARY);
         }
         else
         {
-            postHolder.itemView.setBackgroundColor(Color.parseColor("#FFFFFF"));
+            postHolder.itemView.setBackgroundColor(COLOR_WHITE);
         }
 
         CustomUserData customUserData = postLists.get(i);
